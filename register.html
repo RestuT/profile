@@ -1,121 +1,39 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Halaman Register</title>
+  <title>Registrasi</title>
 </head>
 <body>
-  <h1>Daftar Akun Baru</h1>
-  <form action="register_process.php" method="POST" enctype="multipart/form-data">
-    <table border="0" cellpadding="5" cellspacing="0">
-      <!-- Nama Lengkap -->
-      <tr>
-        <td><label for="fullname">Nama Lengkap</label></td>
-        <td>:</td>
-        <td>
-          <input type="text" id="fullname" name="fullname" required class="legend-field" data-legend="Masukkan nama lengkap Anda.">
-        </td>
-      </tr>
-      <!-- Nama Pengguna -->
-      <tr>
-        <td><label for="username">Nama Pengguna:</label></td>
-        <td>:</td>
-        <td>
-          <input type="text" id="username" name="username" required class="legend-field" data-legend="Masukkan nama pengguna yang unik.">
-        </td>
-      </tr>
-      <!-- Email -->
-      <tr>
-        <td><label for="email">Email:</label></td>
-        <td>:</td>
-        <td>
-          <input type="email" id="email" name="email" required class="legend-field" data-legend="Masukkan alamat email Anda.">
-        </td>
-      </tr>
-      <!-- Kata Sandi -->
-      <tr>
-        <td><label for="password">Kata Sandi:</label></td>
-        <td>:</td>
-        <td>
-          <input type="password" id="password" name="password" required class="legend-field" data-legend="Buat kata sandi yang kuat.">
-        </td>
-      </tr>
-      <!-- Konfirmasi Kata Sandi -->
-      <tr>
-        <td><label for="confirm_password">Konfirmasi Kata Sandi:</label></td>
-        <td>:</td>
-        <td>
-          <input type="password" id="confirm_password" name="confirm_password" required class="legend-field" data-legend="Konfirmasi kata sandi Anda.">
-        </td>
-      </tr>
-      <!-- Unggah Foto Profil -->
-      <tr>
-        <td><label for="photo">Unggah Foto Profil:</label></td>
-        <td>:</td>
-        <td>
-          <input type="file" id="photo" name="photo" class="legend-field" data-legend="Pilih foto profil yang ingin diunggah.">
-        </td>
-      </tr>
-      <!-- Jenis Kelamin -->
-      <tr>
-        <td>Jenis Kelamin:</td>
-        <td>:</td>
-        <td>
-          <input type="radio" id="pria" name="gender" value="pria" required class="legend-field" data-legend="Pilih jenis kelamin Anda.">
-          <label for="pria">Pria</label>
-          <input type="radio" id="wanita" name="gender" value="wanita" class="legend-field" data-legend="Pilih jenis kelamin Anda.">
-          <label for="wanita">Wanita</label>
-        </td>
-      </tr>
-      <!-- Jurusan -->
-      <tr>
-        <td><label for="jurusan">Jurusan:</label></td>
-        <td>:</td>
-        <td>
-          <select id="jurusan" name="jurusan" required class="legend-field" data-legend="Pilih jurusan yang Anda ambil.">
-            <option value="">--Pilih Jurusan--</option>
-            <option value="teknik_informatika">Teknik Informatika</option>
-            <option value="sistem_informasi">Sistem Informasi</option>
-            <option value="elektro">Teknik Elektro</option>
-            <option value="mesin">Teknik Mesin</option>
-            <option value="sipil">Teknik Sipil</option>
-          </select>
-        </td>
-      </tr>
-      <!-- Penilaian (Range 1-10) -->
-      <tr>
-        <td><label for="penilaian">Penilaian (1-10):</label></td>
-        <td>:</td>
-        <td>
-          <input type="range" id="penilaian" name="penilaian" min="1" max="10" step="1" value="5" required class="legend-field" data-legend="Beri nilai dari 1 sampai 10.">
-          <span id="rangeValue"></span>
-        </td>
-      </tr>
-      <!-- Pilih Warna Favorit -->
-      <tr>
-        <td><label for="warna">Pilih Warna Favorit:</label></td>
-        <td>:</td>
-        <td>
-          <input type="color" id="warna" name="warna" value="#000000" class="legend-field" data-legend="Pilih warna favorit Anda.">
-        </td>
-      </tr>
-      <!-- Tanggal Lahir -->
-      <tr>
-        <td><label for="tanggal">Tanggal Lahir:</label></td>
-        <td>:</td>
-        <td>
-          <input type="date" id="tanggal" name="tanggal" required class="legend-field" data-legend="Masukkan tanggal lahir Anda.">
-        </td>
-      </tr>
-      <!-- Tombol Submit dan Reset -->
-      <tr>
-        <td colspan="2" align="center">
-          <button type="submit">Daftar</button>
-          <button type="reset">Reset</button>
-        </td>
-      </tr>
-    </table>
+  <h2>Form Registrasi</h2>
+  <form action="proses_registrasi.php" method="POST" enctype="multipart/form-data">
+    <label for="nama">Nama:</label>
+    <input type="text" id="nama" name="nama" required>
+    <br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <br><br>
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required minlength="6">
+    <br><br>
+
+    <label for="konfirmasi_password">Konfirmasi Password:</label>
+    <input type="password" id="konfirmasi_password" name="konfirmasi_password" required minlength="6">
+    <br><br>
+
+    <label for="foto">Upload Foto:</label>
+    <input type="file" id="foto" name="foto" accept="image/*" required>
+    <br><br>
+
+    <input type="submit" value="Registrasi">
   </form>
-  
+  <br>
+  <p>Sudah punya akun? <a href="login.html">Login di sini</a></p>
 </body>
 </html>

@@ -1,31 +1,23 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Halaman Login</title>
+  <title>Login</title>
 </head>
 <body>
-  <h1 align="center">Login ke Akun Anda</h1>
-  <form action="login_process.php" method="POST">
-    <table border="0" cellpadding="8" cellspacing="0" align="center">
-      <tr>
-        <td><label for="username">Nama Pengguna</label></td>
-        <td>:</td>
-        <td><input type="text" id="username" name="username" required></td>
-      </tr>
-      <tr>
-        <td><label for="password">Kata Sandi:</label></td>
-        <td>:</td>
-        <td><input type="password" id="password" name="password" required></td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-          <button type="submit">Login</button>
-          <button type="reset">Reset</button>
-        </td>
-      </tr>
-    </table>
+  <h2>Form Login</h2>
+  <form action="proses_login.php" method="POST">
+    <label for="username">Username atau Email:</label>
+    <input type="text" id="username" name="username" required>
+    <br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <br><br>
+
+    <input type="submit" value="Login">
   </form>
-  <p align="center">Belum punya akun? <a href="register.html">Daftar di sini</a>.</p>
+  <br>
+  <p>Belum punya akun? <a href="register.html">Daftar di sini</a></p>
 </body>
 </html>
