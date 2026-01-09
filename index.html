@@ -3,63 +3,522 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile RestuTea</title>
+    <title>Portofolio Restu Utami</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --purple: #9333ea;
+            --yellow: #facc15;
+            --blue: #3b82f6;
+            --pink: #f472b6;
+            --black: #000000;
+            --white: #ffffff;
+            --bg-gray: #f3f4f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Neo Brutalism UI Components */
+        .neo-border { border: 4px solid var(--black); }
+        .neo-shadow-sm { box-shadow: 4px 4px 0px 0px var(--black); }
+        .neo-shadow { box-shadow: 8px 8px 0px 0px var(--black); }
+
+        .neo-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background-color: var(--white);
+            border: 4px solid var(--black);
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--black);
+            box-shadow: 4px 4px 0px 0px var(--black);
+        }
+
+        .neo-btn:active {
+            box-shadow: 0px 0px 0px 0px var(--black);
+            transform: translate(4px, 4px);
+        }
+
+        .neo-card {
+            background: var(--white);
+            border: 4px solid var(--black);
+            box-shadow: 8px 8px 0px 0px var(--black);
+            padding: 24px;
+            transition: all 0.2s;
+        }
+
+        .neo-card:hover {
+            box-shadow: none;
+            transform: translate(4px, 4px);
+        }
+
+        /* Navbar */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 4px solid var(--black);
+            padding: 16px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.5rem;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-box {
+            width: 32px;
+            height: 32px;
+            background: var(--purple);
+            border: 2px solid var(--black);
+            transform: rotate(12deg);
+        }
+
+        .nav-links { display: none; gap: 30px; }
+        @media (min-width: 768px) { .nav-links { display: flex; } }
+        .nav-links a { text-decoration: none; color: black; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; }
+
+        /* Hero */
+        .hero { padding: 60px 5%; background: var(--purple); border-bottom: 4px solid var(--black); }
+        .bento-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 768px) {
+            .bento-grid { grid-template-columns: repeat(3, 1fr); }
+            .bento-main { grid-column: span 2; }
+        }
+        .hero-title { font-size: 3.5rem; font-weight: 900; line-height: 0.9; margin-bottom: 24px; text-transform: uppercase; color: white; -webkit-text-stroke: 1.5px black; }
+
+        /* Music Button Specific */
+        .music-btn {
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+            user-select: none;
+        }
+        .music-btn:active {
+            transform: scale(0.95);
+        }
+        .music-btn.playing {
+            background-color: var(--pink) !important;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 8px 8px 0px 0px var(--black); }
+            50% { box-shadow: 12px 12px 0px 0px var(--black); }
+            100% { box-shadow: 8px 8px 0px 0px var(--black); }
+        }
+
+        /* Portfolio */
+        .section-padding { padding: 80px 5%; max-width: 1200px; margin: 0 auto; }
+        .filter-container { display: flex; gap: 10px; margin-bottom: 40px; justify-content: center; flex-wrap: wrap; }
+        .portfolio-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        @media (min-width: 768px) { .portfolio-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .project-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; }
+        .project-img { height: 200px; border-bottom: 4px solid var(--black); display: flex; align-items: center; justify-content: center; position: relative; }
+        .project-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        .tag { font-size: 0.7rem; font-weight: 800; border: 2px solid var(--black); padding: 2px 8px; display: inline-block; margin-bottom: 10px; text-transform: uppercase; }
+        
+        /* Mini link button inside card */
+        .card-link-hint {
+            margin-top: auto;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--black);
+            padding-top: 15px;
+        }
+
+        /* Experience */
+        .experience-section { background: var(--yellow); border-top: 4px solid var(--black); border-bottom: 4px solid var(--black); }
+        .exp-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        @media (min-width: 768px) { .exp-grid { grid-template-columns: 1fr 1fr; } }
+        .timeline-item { background: white; padding: 24px; position: relative; margin-bottom: 20px; }
+        .year-badge { position: absolute; top: -10px; right: 15px; background: black; color: white; padding: 4px 10px; font-weight: 800; font-size: 0.7rem; }
+
+        /* Modal */
+        #modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+        .modal-content { background: white; max-width: 500px; width: 100%; border: 4px solid black; position: relative; overflow: hidden; }
+        .close-btn { position: absolute; top: 10px; right: 10px; background: black; color: white; border: none; padding: 5px 10px; cursor: pointer; font-weight: 900; z-index: 20; }
+
+        footer { background: black; color: white; padding: 60px 5%; text-align: center; }
+        .social-links { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        .social-icon { width: 50px; height: 50px; background: white; border: 4px solid black; display: flex; align-items: center; justify-content: center; color: black; transition: 0.2s; text-decoration: none; }
+        .social-icon:hover { transform: translateY(-5px); }
+
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Profile</h1>
-    </header>
 
-    <main>
-        <article>
-            <section>
-                <h2>Informasi Pribadi</h2>
-                <figure>
-                    <img src="foto.jpeg" alt="Foto Restu Utami" width="150" height="200">
-                    <figcaption>RestuTea</figcaption>
-                </figure>
-            </section>
+    <!-- Navigasi -->
+    <nav>
+        <div class="logo">
+            <div class="logo-box"></div>
+            Restu Utami.
+        </div>
+        <div class="nav-links">
+            <a href="#about">Tentang</a>
+            <a href="#portfolio">Projek</a>
+            <a href="#experience">Pengalaman</a>
+            <a href="#contact">Kontak</a>
+        </div>
+        <a href="mailto:restu@example.com" class="neo-btn" style="background: var(--yellow);">Hire Me</a>
+    </nav>
 
-            <section>
-                <h2>Data Diri</h2>
-                <dl>
-                    <dt>Nama Lengkap</dt>
-                    <dd>Restu</dd>
+    <!-- Hero Section -->
+    <section id="about" class="hero">
+        <div class="bento-grid">
+            <div class="neo-card bento-main">
+                <h2 class="hero-title">UI/UX Designer <br> & Creative Lead</h2>
+                <p style="font-weight: 700; margin-bottom: 30px;">
+                    Halo! Aku Restu, mahasiswa Rekayasa Perangkat Lunak yang fokus pada penciptaan pengalaman digital yang intuitif dan manajemen konten kreatif yang berdampak.
+                </p>
+                <a href="#contact" class="neo-btn" style="background: var(--yellow);">Ayo Ngobrol!</a>
+            </div>
+            
+            <!-- BUTTON MUSIK -->
+            <div id="music-trigger" class="neo-card music-btn" onclick="toggleMusic()" style="background: var(--yellow); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                <div id="music-icon-container">
+                    <i id="play-icon" data-lucide="play" style="width: 48px; height: 48px; fill: black; margin-bottom: 10px;"></i>
+                    <i id="pause-icon" data-lucide="pause" class="hidden" style="width: 48px; height: 48px; fill: black; margin-bottom: 10px;"></i>
+                </div>
+                <p id="music-text" style="font-weight: 900; font-size: 1.2rem; text-transform: uppercase;">Disarankan di Bandung</p>
+                <p id="now-playing" class="hidden" style="font-size: 0.6rem; font-weight: 800; margin-top: 5px; background: black; color: white; padding: 2px 5px;">NOW PLAYING...</p>
+            </div>
 
-                    <dt>Tanggal Lahir</dt>
-                    <dd>3</dd>
+            <div class="neo-card" style="background: var(--blue); display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <p style="font-size: 2.5rem; font-weight: 900;">20+</p>
+                    <p style="font-weight: 800; font-size: 0.7rem; text-transform: uppercase;">Projek Berhasil</p>
+                </div>
+                <i data-lucide="zap" style="width: 32px; height: 32px;"></i>
+            </div>
 
-                    <dt>Alamat</dt>
-                    <dd>Bandung, Indonesia</dd>
-                </dl>
-            </section>
+            <div class="neo-card bento-main" style="display: flex; align-items: center; gap: 20px;">
+                <div style="display: flex;">
+                    <div style="width: 45px; height: 45px; border-radius: 50%; border: 3px solid black; background: var(--purple); margin-right: -15px;"></div>
+                    <div style="width: 45px; height: 45px; border-radius: 50%; border: 3px solid black; background: var(--yellow); margin-right: -15px;"></div>
+                    <div style="width: 45px; height: 45px; border-radius: 50%; border: 3px solid black; background: var(--blue);"></div>
+                </div>
+                <p style="font-weight: 700; font-style: italic;">"Mengubah kompleksitas menjadi desain yang sederhana."</p>
+            </div>
+        </div>
+    </section>
 
-            <section>
-                <h2>Kontak</h2>
-                <address>
-                    Email: <a href=""></a><br>
-                    Telepon: <a href=""></a>
-                </address>
-            </section>
+    <!-- Audio Element -->
+    <audio id="bg-music" loop>
+        <source src="lagu1.mp3" type="audio/mpeg">
+    </audio>
 
-            <section>
-                <h2>Pendidikan</h2>
-                <p>Sedang menempuh</p>
-            </section>
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="section-padding">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h2 style="font-size: 3rem; font-weight: 900; text-transform: uppercase;">Koleksi Projek</h2>
+            <p style="font-weight: 700; color: #666;">Jelajahi karya pilihan saya di bawah ini.</p>
+        </div>
 
-            <section>
-                <h2>Hobi</h2>
-                <ul>
-                    <li>Bermain Game</li>
-                    <li>Jalan-jalan</li>
-                    <li>Menonton film</li>
-                </ul>
-            </section>
-        </article>
-    </main>
+        <div class="filter-container">
+            <button class="neo-btn filter-btn active" data-filter="semua">Semua</button>
+            <button class="neo-btn filter-btn" data-filter="uiux">UI/UX</button>
+            <button class="neo-btn filter-btn" data-filter="web">Website</button>
+            <button class="neo-btn filter-btn" data-filter="desain">Desain</button>
+        </div>
 
-    <footer>
-        <p>&copy; 2025 RestuTea</p>
+        <div class="portfolio-grid" id="portfolio-grid">
+            
+            <!-- UI/UX Projects (3 Projek) -->
+            <div class="neo-card project-card" data-category="uiux" 
+                 onclick="openModal('Edu-Tech Mobile App', 'Aplikasi pembelajaran interaktif dengan gamifikasi untuk mahasiswa RPL.', 'var(--purple)', 'https://figma.com/file/edu-tech')">
+                <div class="project-img" style="background: var(--purple);">
+                    <i data-lucide="smartphone" style="width: 60px; height: 60px;"></i>
+                </div>
+                <div class="project-content">
+                    <span class="tag">UI/UX Design</span>
+                    <h3 style="font-weight: 900; font-size: 1.4rem;">Edu-Tech App</h3>
+                    <p style="font-size: 0.85rem; font-weight: 600;">E-Learning Gamification</p>
+                    <div class="card-link-hint">Lihat Projek <i data-lucide="arrow-right" size="14"></i></div>
+                </div>
+            </div>
+
+            <div class="neo-card project-card" data-category="uiux" 
+                 onclick="openModal('Health-Tracker App', 'Dashboard monitoring kesehatan terpadu dengan analitik real-time.', 'var(--blue)', 'https://figma.com/file/health')">
+                <div class="project-img" style="background: var(--blue);">
+                    <i data-lucide="activity" style="width: 60px; height: 60px; color: white;"></i>
+                </div>
+                <div class="project-content">
+                    <span class="tag">UI/UX Design</span>
+                    <h3 style="font-weight: 900; font-size: 1.4rem;">Health Tracker</h3>
+                    <p style="font-size: 0.85rem; font-weight: 600;">Healthcare Dashboard</p>
+                    <div class="card-link-hint">Lihat Projek <i data-lucide="arrow-right" size="14"></i></div>
+                </div>
+            </div>
+
+            <div class="neo-card project-card" data-category="uiux" 
+                 onclick="openModal('E-Commerce Dashboard', 'Sistem manajemen inventori dan penjualan untuk admin marketplace.', 'var(--pink)', 'https://figma.com/file/sales')">
+                <div class="project-img" style="background: var(--pink);">
+                    <i data-lucide="layout" style="width: 60px; height: 60px;"></i>
+                </div>
+                <div class="project-content">
+                    <span class="tag">UI/UX Design</span>
+                    <h3 style="font-weight: 900; font-size: 1.4rem;">Sales Portal</h3>
+                    <p style="font-size: 0.85rem; font-weight: 600;">Admin Management UI</p>
+                    <div class="card-link-hint">Lihat Projek <i data-lucide="arrow-right" size="14"></i></div>
+                </div>
+            </div>
+
+            <!-- Website Projects (4 Projek) -->
+            <div class="neo-card project-card" data-category="web" 
+                 onclick="openModal('Portfolio Website v1', 'Website portofolio murni yang dibangun dengan HTML/CSS dan fokus pada performa.', 'var(--yellow)', 'https://restu-v1.netlify.app')">
+                <div class="project-img" style="background: var(--yellow);">
+                    <i data-lucide="globe" style="width: 60px; height: 60px;"></i>
+                </div>
+                <div class="project-content">
+                    <span class="tag">Web Development</span>
+                    <h3 style="font-weight: 900; font-size: 1.4rem;">Portfolio v1</h3>
+                    <p style="font-size: 0.85rem; font-weight: 600;">Vanilla JS & CSS</p>
+                    <div class="card-link-hint">Buka Link <i data-lucide="external-link" size="14"></i></div>
+                </div>
+            </div>
+
+            <div class="neo-card project-card" data-category="web" 
+                 onclick="openModal('LMS Platform', 'Sistem manajemen pembelajaran berbasis web dengan fitur manajemen tugas.', 'var(--purple)', 'https://lms-restu.io')">
+                <div class="project-img" style="background: var(--purple);">
+                    <i data-lucide="book-open" style="width: 60px; height: 60px; color: white;"></i>
+                </div>
+                <div class="project-content">
+                    <span class="tag">Web Development</span>
+                    <h3 style="font-weight: 900; font-size: 1.4rem;">LMS Restu</h3>
+                    <p style="font-size: 0.85rem; font-weight: 600;">Fullstack Learning System</p>
+                    <div class="card-link-hint">Buka Link <i data-lucide="external-link" size="14"></i></div>
+                </div>
+            </div>
+
+            <div class="neo-card project-card" data-category="web" 
+                 onclick="openModal('Company Profile', 'Website profil perusahaan startup yang responsif dan interaktif.', 'var(--blue)', 'https://startup-restu.com')">
+                <div class="project-img" style="background: var(--blue);">
+                    <i data-lucide="briefcase" style="width: 60px; height: 60px; color: white;"></i>
+                </div>
+                <div class="project-content">
+                    <span class="tag">Web Development</span>
+                    <h3 style="font-weight: 900; font-size: 1.4rem;">Startup Page</h3>
+                    <p style="font-size: 0.85rem; font-weight: 600;">Responsive Landing Page</p>
+                    <div class="card-link-hint">Buka Link <i data-lucide="external-link" size="14"></i></div>
+                </div>
+            </div>
+
+            <div class="neo-card project-card" data-category="web" 
+                 onclick="openModal('SaaS Landing Page', 'Optimasi konversi untuk halaman pemasaran produk digital.', 'var(--pink)', 'https://saas-demo.restu.id')">
+                <div class="project-img" style="background: var(--pink);">
+                    <i data-lucide="monitor" style="width: 60px; height: 60px;"></i>
+                </div>
+                <div class="project-content">
+                    <span class="tag">Web Development</span>
+                    <h3 style="font-weight: 900; font-size: 1.4rem;">Cloud Service</h3>
+                    <p style="font-size: 0.85rem; font-weight: 600;">High Conversion Landing</p>
+                    <div class="card-link-hint">Buka Link <i data-lucide="external-link" size="14"></i></div>
+                </div>
+            </div>
+
+            <!-- Design Projects (2 Projek) -->
+            <div class="neo-card project-card" data-category="desain" 
+                 onclick="openModal('Branding WibuFest', 'Pengembangan identitas visual lengkap mulai dari logo hingga aset media sosial.', 'var(--yellow)', 'https://instagram.com/p/wibufest')">
+                <div class="project-img" style="background: var(--yellow);">
+                    <i data-lucide="palette" style="width: 60px; height: 60px;"></i>
+                </div>
+                <div class="project-content">
+                    <span class="tag">Visual Design</span>
+                    <h3 style="font-weight: 900; font-size: 1.4rem;">WibuFest 2023</h3>
+                    <p style="font-size: 0.85rem; font-weight: 600;">Visual Identity & Branding</p>
+                    <div class="card-link-hint">Lihat Hasil <i data-lucide="image" size="14"></i></div>
+                </div>
+            </div>
+
+            <div class="neo-card project-card" data-category="desain" 
+                 onclick="openModal('Social Media Kit', 'Desain konten kreatif untuk kampanye pemasaran brand lokal.', 'var(--pink)', 'https://instagram.com/restu.utami')">
+                <div class="project-img" style="background: var(--pink);">
+                    <i data-lucide="image" style="width: 60px; height: 60px;"></i>
+                </div>
+                <div class="project-content">
+                    <span class="tag">Visual Design</span>
+                    <h3 style="font-weight: 900; font-size: 1.4rem;">Social Content</h3>
+                    <p style="font-size: 0.85rem; font-weight: 600;">Creative Assets Kit</p>
+                    <div class="card-link-hint">Lihat Hasil <i data-lucide="image" size="14"></i></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience-section section-padding">
+        <div class="exp-grid">
+            <div>
+                <h2 style="font-size: 4rem; font-weight: 900; text-transform: uppercase; line-height: 1; margin-bottom: 30px;">Jejak <br> Langkahku.</h2>
+                <div class="neo-card" style="margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <i data-lucide="award" style="color: var(--purple); width: 32px; height: 32px;"></i>
+                        <p style="font-weight: 900; text-transform: uppercase;">Finalis PKM Karsa Cipta 2024</p>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <div class="timeline-item neo-shadow-sm neo-border">
+                    <span class="year-badge">2023 - SKRG</span>
+                    <h3 style="font-weight: 900;">UI/UX DESIGN LEAD</h3>
+                    <p style="color: var(--purple); font-weight: 800;">HIMA RPL UPI</p>
+                </div>
+                <div class="timeline-item neo-shadow-sm neo-border">
+                    <span class="year-badge">2022 - 2023</span>
+                    <h3 style="font-weight: 900;">CREATIVE LEAD</h3>
+                    <p style="color: var(--purple); font-weight: 800;">WIBUFEST INDONESIA</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <h2 style="font-size: 3rem; font-weight: 900; text-transform: uppercase; margin-bottom: 30px;">Mari Berkolaborasi!</h2>
+        <div class="social-links">
+            <a href="https://instagram.com/restu.utami" target="_blank" class="social-icon neo-border neo-shadow-sm"><i data-lucide="instagram"></i></a>
+            <a href="https://github.com/restuutami" target="_blank" class="social-icon neo-border neo-shadow-sm"><i data-lucide="github"></i></a>
+            <a href="mailto:restu@example.com" class="social-icon neo-border neo-shadow-sm"><i data-lucide="mail"></i></a>
+        </div>
+        <p style="margin-top: 50px; font-weight: 800; font-size: 0.8rem; opacity: 0.5;">© 2024 RESTU UTAMI - BANDUNG, ID</p>
     </footer>
+
+    <!-- Modal Project Detail -->
+    <div id="modal-overlay">
+        <div class="modal-content neo-border">
+            <button class="close-btn" onclick="closeModal()">X</button>
+            <div id="modal-header" style="height: 180px; border-bottom: 4px solid black; display: flex; align-items: center; justify-content: center;">
+                <i id="modal-icon" data-lucide="zap" style="width: 70px; height: 70px;"></i>
+            </div>
+            <div style="padding: 30px;">
+                <h3 id="modal-title" style="font-size: 1.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 15px;">JUDUL PROJEK</h3>
+                <p id="modal-desc" style="font-weight: 600; font-style: italic; color: #333; margin-bottom: 30px; line-height: 1.5;">Deskripsi lengkap.</p>
+                
+                <div style="display: flex; gap: 15px;">
+                    <!-- Tombol Link Dinamis -->
+                    <a id="btn-live" href="#" target="_blank" class="neo-btn" style="flex: 1; background: var(--black); color: white; justify-content: center;">Buka Demo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // MUSIC LOGIC
+        const audio = document.getElementById('bg-music');
+        const musicTrigger = document.getElementById('music-trigger');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const nowPlayingText = document.getElementById('now-playing');
+        const musicText = document.getElementById('music-text');
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                musicTrigger.classList.add('playing');
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+                nowPlayingText.classList.remove('hidden');
+                musicText.innerText = "Enjoy the Vibes!";
+            } else {
+                audio.pause();
+                musicTrigger.classList.remove('playing');
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+                nowPlayingText.classList.add('hidden');
+                musicText.innerText = "Disarankan di Bandung";
+            }
+        }
+
+        // Filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => {
+                    b.classList.remove('active');
+                    b.style.background = 'white';
+                    b.style.color = 'black';
+                });
+                btn.classList.add('active');
+                btn.style.background = 'black';
+                btn.style.color = 'white';
+
+                const filter = btn.getAttribute('data-filter');
+                projectCards.forEach(card => {
+                    if (filter === 'semua' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Modal Logic
+        const overlay = document.getElementById('modal-overlay');
+        const mTitle = document.getElementById('modal-title');
+        const mDesc = document.getElementById('modal-desc');
+        const mHeader = document.getElementById('modal-header');
+        const btnLive = document.getElementById('btn-live');
+
+        function openModal(title, desc, color, live) {
+            mTitle.innerText = title;
+            mDesc.innerText = desc;
+            
+            // Set warna header modal sesuai kategori
+            mHeader.style.backgroundColor = `var(--${color.split('--')[1].replace(')', '')})`;
+            
+            // Update link tombol
+            btnLive.href = live;
+
+            // Sembunyikan tombol jika link kosong (#)
+            btnLive.style.display = live === '#' ? 'none' : 'inline-flex';
+
+            overlay.style.display = 'flex';
+        }
+
+        function closeModal() {
+            overlay.style.display = 'none';
+        }
+
+        window.onclick = (e) => { if(e.target == overlay) closeModal(); }
+    </script>
 </body>
 </html>
